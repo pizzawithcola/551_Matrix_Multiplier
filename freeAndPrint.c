@@ -15,7 +15,7 @@ void freeMatrix(matrix_t * matrix) {
 void printMatrix(matrix_t * matrix){
     for(size_t i = 0; i < matrix->rows; i++){
         for(size_t j = 0; j < matrix->columns; j++){
-            printf("%f",matrix->values[i][j]);
+            printf("%f ",matrix->values[i][j]);
         }
         printf("\n");
     }
