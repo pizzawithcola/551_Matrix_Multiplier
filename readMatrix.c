@@ -40,5 +40,9 @@ matrix_t * readMatrix(const char * filename) {
             }
         }
     }
+    if(fclose(f) != 0){
+        perror("fail to close file);
+	exit(EXIT_FAILURE);
+    }
     return m;
 }
