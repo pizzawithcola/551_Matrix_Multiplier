@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "matrix.h" 
+#include "readMatrix.h"
 
 matrix_t * readMatrix(const char * filename) {
     matrix_t * m = (matrix_t*)malloc(sizeof(*m));
@@ -9,13 +10,13 @@ matrix_t * readMatrix(const char * filename) {
     char * curr = NULL;
     size_t linecap;
     if(getline(&curr, &linecap, f) >= 0){
-        m -> columns = strtoul(curr);
+        m -> columns = strtoul(curr, NULL, 10);
     } else { 
         perror("invalid input");
         exit(EXIT_FAILURE);
     }
     if(getline(&curr, &linecap, f) >= 0){
-        m -> rows = strtoul(curr);
+        m -> rows = strtoul(curr, NULL, 10);
     } else { 
         perror("invalid input");
         exit(EXIT_FAILURE);
@@ -32,12 +33,12 @@ matrix_t * readMatrix(const char * filename) {
     for(int i = 0; i < m -> rows; i++){
         for(int j = 0; j < m -> columns; j++){
             if(getline(&curr, &linecap, f) >= 0){
-                m -> values[i][j] = strtod(curr);
+                m -> values[i][j] = strtod(curr, NULL );
             } else { 
                 perror("invalid input");
                 exit(EXIT_FAILURE);
             }
         }
     }
-    return matrix_t;
+    return m;
 }

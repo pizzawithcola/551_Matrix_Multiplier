@@ -1,4 +1,13 @@
 #include "multiply.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "matrix.h"
+
+void checkMemory(matrix_t * result);
+void checkMultiplyInvaild(matrix_t * left, matrix_t * right);
+matrix_t * mallocResultMatrix(matrix_t * left, matrix_t * right);
+void multiplyMatrix(matrix_t * result, matrix_t * left, matrix_t * right);
 
 void checkMultiplyInvaild(matrix_t * left, matrix_t * right){
     //if the number of columns of left matrix is not equal to the number of rows of right matrix, they cannot be multiplied
