@@ -7,6 +7,8 @@
 
 #ifndef matrix_h
 #define matrix_h
+#include <stdlib.h>
+#include <stdio.h>
 
 typedef struct{
     double ** values;

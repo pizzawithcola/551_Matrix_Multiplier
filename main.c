@@ -8,7 +8,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "matrix.h"
-
+#include "readMatrix.h"
+#include "multiply.h"
+#include "freeAndPrint.h"
 
 int main(int argc, char ** argv){
     // regular check
@@ -16,18 +18,13 @@ int main(int argc, char ** argv){
         perror("Argument Number Error!");
         return EXIT_FAILURE;
     }
-    
+    const char * fileName1 = argv[1];
+    const char * fileName2 = argv[2];
     // import and read the first and second file
-    FILE * firstFile = fopen("matrix1.txt", "r");
-    matrix_t * firstMatrix = malloc(sizeof(*firstMatrix));
-    firstMatrix = readMatrix(firstFile);
+    matrix_t * firstMatrix = readMatrix(fileName1);
+    matrix_t * secondMatrix = readMatrix(fileName2);
     
-    FILE * secondFile = fopen("matrix2.txt", "r");
-    matrix_t * secondMatrix = malloc (sizeof(*firstMatrix));
-    secondMatrix = readMatrix(secondFile);
-    
-    matrix_t * result = malloc(sizeof(*result));
-    result = multiply(firstMatrix, secondMatrix);
+    matrix_t * result = multiply(firstMatrix, secondMatrix);
     
     printMatrix(result);
     
