@@ -15,7 +15,9 @@ void checkMultiplyInvaild(matrix_t * left, matrix_t * right){
     //if the number of columns of left matrix is not equal to the number of rows of right matrix, they cannot be multiplied
     if (left->columns != right->rows) {
         perror("Cannot multiply the input matrices");
-        exit(EXIT_FAILURE);
+        freeMatrix(left);
+	freeMatrix(right);
+	exit(EXIT_FAILURE);
     }
 }
 
