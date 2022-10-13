@@ -9,7 +9,6 @@
 #include <stdlib.h>
 #include "matrix.h"
 
-
 int main(int argc, char ** argv){
     // regular check
     if(argc != 3){
