@@ -1,9 +1,6 @@
-//
-//  main.c
 //  DKU Semester I
 //
 //  Created by Jamie on 2022/10/13.
-//
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -23,11 +20,12 @@ int main(int argc, char ** argv){
     // import and read the first and second file
     matrix_t * firstMatrix = readMatrix(fileName1);
     matrix_t * secondMatrix = readMatrix(fileName2);
-    
+    //do multiplication
     matrix_t * result = multiply(firstMatrix, secondMatrix);
-    
+    //print
+    printf("the result matrix is:\n");
     printMatrix(result);
-    
+    //free
     freeMatrix(firstMatrix);
     freeMatrix(secondMatrix);
     freeMatrix(result);
