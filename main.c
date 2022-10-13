@@ -19,7 +19,14 @@ int main(int argc, char ** argv){
     const char * fileName2 = argv[2];
     // import and read the first and second file
     matrix_t * firstMatrix = readMatrix(fileName1);
+    if(!firstMatrix){
+	exit(EXIT_FAILURE);
+    }
     matrix_t * secondMatrix = readMatrix(fileName2);
+    if(!secondMatrix){
+        freeMatrix(firstMatrix);
+        exit(EXIT_FAILURE);
+    }
     //do multiplication
     matrix_t * result = multiply(firstMatrix, secondMatrix);
     //print
