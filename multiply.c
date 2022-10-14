@@ -47,6 +47,7 @@ matrix_t * mallocResultMatrix(matrix_t * left, matrix_t * right) {
         perror("fail to malloc for result matrix");
         freeMatrix(left);
         freeMatrix(right);
+        freeMatrix(result);
         exit(EXIT_FAILURE);
     }
     //use loop to allocate for every row
@@ -57,6 +58,7 @@ matrix_t * mallocResultMatrix(matrix_t * left, matrix_t * right) {
             perror("fail to malloc for result matrix");
             freeMatrix(left);
             freeMatrix(right);
+	    freeMatrix(result);
             exit(EXIT_FAILURE);
         }   
     }

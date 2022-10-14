@@ -4,10 +4,19 @@
 
 //this function free a matrix_t
 void freeMatrix(matrix_t * matrix) {
-  for(int i = 0; i < matrix->rows; i++){
-    free(matrix->values[i]);
+  if(!matrix){
+    return;
   }
-  free(matrix->values);
+  if(matrix -> rows && matrix -> values){
+    for(int i = 0; i < matrix->rows; i++){
+      if(matrix->values[i]){
+        free(matrix->values[i]);
+      }
+    }
+  }
+  if(matrix -> values){
+      free(matrix->values);
+  }
   free(matrix);
 }
 
