@@ -100,6 +100,13 @@ void fillInDoubleInMatrix(matrix_t* m, size_t count, FILE* f){
     free(curr);
 }
 
+void freeAndClose(matrix_t * m, FILE * f){
+    freeMatrix(m);
+    if(fclose(f) != 0){
+        perror("faill to close file");
+    }
+}
+
 //this function will read from a file, create a matrix and fill in infos for the matrix
 matrix_t * readMatrix(const char * filename) {
     errno = 0;
@@ -110,29 +117,38 @@ matrix_t * readMatrix(const char * filename) {
     matrix_t * m = (matrix_t*)malloc(sizeof(*m));
     m -> values = NULL;
     checkMalloc(m);
+    if(errno != 0){
+        freeAndClose(m, f);
+        return NULL;
+    }
     //fill in row/column info
     fillInMatrixRowColumn(m, f);
+    if(errno != 0){
+        freeAndClose(m, f);
+	return NULL;
+    }
     //get number of cells
     size_t count = m -> rows * m -> columns;
     if(count == 0){
         perror("size is 0");
-	freeMatrix(m);
-        if(fclose(f) != 0){
-            perror("faill to close file");
-        }
-        return NULL;
+        freeAndClose(m, f);
+	return NULL;
     }
     //malloc cells
     mallocValuesForMatrix(m);
+    if(errno != 0){
+        freeAndClose(m, f);
+	return NULL;
+    }
     //fill in cells
     fillInDoubleInMatrix(m, count, f);
-    if(fclose(f) != 0){
-        perror("fail to close file");
-        errno = 1;
-    }
     if(errno != 0){
-        freeMatrix(m);
-        return NULL;
+        freeAndClose(m, f);
+	return NULL;
+    }
+
+    if(fclose(f) != 0){
+        perror("faill to close file");
     }
     return m;
 }
