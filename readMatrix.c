@@ -49,6 +49,8 @@ void fillInMatrixRowColumn(matrix_t* m, FILE* f){
     } else { 
         perror("invalid input");
         errno = 1;
+	free(curr);
+	return;
     }
     //read row from input
     if(getline(&curr, &linecap, f) >= 0){
@@ -60,6 +62,8 @@ void fillInMatrixRowColumn(matrix_t* m, FILE* f){
     } else { 
         perror("invalid input");
         errno = 1;
+	free(curr);
+	return;
     }
     free(curr);
 }
@@ -129,10 +133,6 @@ matrix_t * readMatrix(const char * filename) {
 	return NULL;
     }
     m -> values = NULL;
-    if(errno != 0){
-        freeAndClose(m, f);
-        return NULL;
-    }
     //fill in row/column info
     fillInMatrixRowColumn(m, f);
     if(errno != 0){
