@@ -43,6 +43,10 @@ void fillInMatrixRowColumn(matrix_t* m, FILE* f){
     //read column from input
     if(getline(&curr, &linecap, f) >= 0){
         m -> columns = checkValidSizeTAndReturn(curr);
+        if(errno != 0){
+            free(curr);
+            return;
+        }
     } else { 
         perror("invalid input");
         errno = 1;
@@ -50,6 +54,10 @@ void fillInMatrixRowColumn(matrix_t* m, FILE* f){
     //read row from input
     if(getline(&curr, &linecap, f) >= 0){
         m -> rows = checkValidSizeTAndReturn(curr);
+        if(errno != 0){
+            free(curr);
+            return;
+        }
     } else { 
         perror("invalid input");
         errno = 1;
