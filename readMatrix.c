@@ -104,14 +104,15 @@ matrix_t * readMatrix(const char * filename) {
         return NULL;
     }
     matrix_t * m = (matrix_t*)malloc(sizeof(*m));
+    m -> values = NULL;
     checkMalloc(m);
     //fill in row/column info
     fillInMatrixRowColumn(m, f);
     //get number of cells
     size_t count = m -> rows * m -> columns;
     if(count == 0){
-        perror("invalid input");
-	free(m);
+        perror("size is 0");
+	freeMatrix(m);
         if(fclose(f) != 0){
             perror("faill to close file");
         }
