@@ -6,20 +6,19 @@
 #include <errno.h>
 #include "freeAndPrint.h"
 
-//this function check if malloc succeed
-void checkMalloc(void* item){
-    if(!item){
-        perror("no memory to malloc"); 
-        errno = 1;
-    }
-}
 //this function will do the malloc for matrix_t -> values
 void mallocValuesForMatrix(matrix_t* m){
     m->values = (double **)malloc(m -> rows * sizeof(*m->values));
-    checkMalloc(m->values);
+    if(!m->values){
+	errno = 1;
+	return;
+    }
     for(int i = 0; i < m -> rows; i++){
         m->values[i] = (double *)malloc(m -> columns * sizeof(*m->values[i]));
-        checkMalloc(m->values[i]);
+        if(!m->values[i]){
+	    errno = 1;
+	    return;
+	}
     }
 }
 
@@ -123,8 +122,13 @@ matrix_t * readMatrix(const char * filename) {
         return NULL;
     }
     matrix_t * m = (matrix_t*)malloc(sizeof(*m));
+    if(!m){
+    	if(fclose(f) != 0){
+       	    perror("faill to close file");
+        }
+	return NULL;
+    }
     m -> values = NULL;
-    checkMalloc(m);
     if(errno != 0){
         freeAndClose(m, f);
         return NULL;
