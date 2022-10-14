@@ -78,7 +78,11 @@ void fillInDoubleInMatrix(matrix_t* m, size_t count, FILE* f){
         for(int j = 0; j < m -> columns; j++){
             if(getline(&curr, &linecap, f) >= 0){
                 m -> values[i][j] = checkValidDoubleAndReturn(curr);
-            } else { 
+                if(errno != 0){
+                    free(curr);
+                    return;
+                }
+ 	    } else { 
                 perror("invalid input");
                 errno = 1;
 		free(curr);
