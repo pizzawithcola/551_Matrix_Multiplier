@@ -81,6 +81,8 @@ void fillInDoubleInMatrix(matrix_t* m, size_t count, FILE* f){
             } else { 
                 perror("invalid input");
                 errno = 1;
+		free(curr);
+		return;
     	    }
         }
     }
@@ -88,6 +90,8 @@ void fillInDoubleInMatrix(matrix_t* m, size_t count, FILE* f){
     if(getline(&curr, &linecap, f) >= 0){
         perror("too many lines");
         errno = 1;
+	free(curr);
+	return;
     }
     free(curr);
 }
@@ -95,16 +99,23 @@ void fillInDoubleInMatrix(matrix_t* m, size_t count, FILE* f){
 //this function will read from a file, create a matrix and fill in infos for the matrix
 matrix_t * readMatrix(const char * filename) {
     errno = 0;
+    FILE * f = fopen(filename, "r");
+    if(f == NULL){
+        return NULL;
+    }
     matrix_t * m = (matrix_t*)malloc(sizeof(*m));
     checkMalloc(m);
-    FILE * f = fopen(filename, "r");
     //fill in row/column info
     fillInMatrixRowColumn(m, f);
     //get number of cells
     size_t count = m -> rows * m -> columns;
     if(count == 0){
         perror("invalid input");
-	errno = 1;
+	free(m);
+        if(fclose(f) != 0){
+            perror("faill to close file");
+        }
+        return NULL;
     }
     //malloc cells
     mallocValuesForMatrix(m);
